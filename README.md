@@ -23,5 +23,6 @@
     * npm i express
 
 ### Base link
+    * Ultimo visto https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/cadastro-de-conta
     * https://app.rocketseat.com.br/node/chapter-i-2/group/configurando-o-projeto/lesson/criando-a-estrutura-do-projeto
     * https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js
