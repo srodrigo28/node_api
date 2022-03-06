@@ -12,6 +12,20 @@ app.use(express.json());
 
 const customers = [];
 
+// Midd leware
+function verifyIfExistsAccoountCPF(req, res, next){
+    const { cpf } = req.headers;
+    const customer = customers.find((customer) => customer.cpf === cpf);
+
+    if(!customer){
+        return res.status(400).json({ error: " Customer not found "});
+    }
+
+    req.customer = customer;
+
+    return next();
+}
+
 app.post("/account", (req, res) => {
     const { cpf, name } = req.body;
 
@@ -40,17 +54,14 @@ app.post("/account", (req, res) => {
         return res.status(201).send();
     });
 
-    app.get("/account", (req, res) => {
-        //const { cpf } = req.params;
-        const { cpf } = req.headers;
-
-        const customer = customers.find((customer) => customer.cpf === cpf );
-
-        if(!customer){
-            return res.status(400).json({ error: "Customer not found"});
-        }
+    app.get("/account", verifyIfExistsAccoountCPF, (req, res) => {
+        const { customer } = req;
         return res.json(customer.statement);
     });
+
+    /*** Se for usar o Midleware em todas rotas
+     *  app.use(Midleware)
+     */
 
 app.listen(3333)
 console.log("rodando ...");
