@@ -63,5 +63,19 @@ app.post("/account", (req, res) => {
      *  app.use(Midleware)
      */
 
+    app.post("/deposit", verifyIfExistsAccoountCPF, (req, res) =>{
+        const { description, amount } = req.body;
+        const { customer } = req;
+
+        const statamentOperation = {
+            description,
+            amount,
+            created_at: new Date(),
+            type: "credit"
+        };
+
+        customer.statement.push(statamentOperation);
+        return res.status(201). send();
+    })
 app.listen(3333)
 console.log("rodando ...");
