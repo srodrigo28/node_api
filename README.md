@@ -21,6 +21,7 @@
 
 ### Dependências
     * npm i express
+    * npm i uuid@8.3.2
 
 ### Base link
     * Ultimo visto https://app.rocketseat.com.br/node/primeiro-projeto-com-node-js/lesson/cadastro-de-conta
