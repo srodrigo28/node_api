@@ -14,14 +14,37 @@ const customers = [];
 
 app.post("/account", (req, res) => {
     const { cpf, name } = req.body;
-    const id = uuid4();
+
+    const nomeAlreadyExists = customers.some(
+        (curstomer) => curstomer.name === name
+    );
+    const cpfAlreadyExists = customers.some(
+        (curstomer) => curstomer.cpf === cpf
+    );
+    // if(nomeAlreadyExists){
+    //     return res.status(400).json(
+    //         { error: "Custome already exists by name", tradu: "Já existe esse nome" }
+    //     )
+    // }
+    if(cpfAlreadyExists){
+        return res.status(400).json(
+            { error: "Customer already exists by cpf!", tradu: "Já existe esse cpf!"}
+        );
+    }
     
     customers.push({
         cpf,
         name,
-        id,
+        id : uuid4(),
         statement: []
     });
+
+    app.get("/account", (req, res) => {
+        const { name, cpf } = req.query;
+        return res.json(
+            {name, cpf}
+        )
+    })
 
     return res.status(201).send();
 });
