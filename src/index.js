@@ -40,8 +40,9 @@ app.post("/account", (req, res) => {
         return res.status(201).send();
     });
 
-    app.get("/account/:cpf", (req, res) => {
-        const { cpf } = req.params;
+    app.get("/account", (req, res) => {
+        //const { cpf } = req.params;
+        const { cpf } = req.headers;
 
         const customer = customers.find((customer) => customer.cpf === cpf );
 
