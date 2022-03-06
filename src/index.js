@@ -15,7 +15,7 @@ const customers = [];
 app.post("/account", (req, res) => {
     const { cpf, name } = req.body;
 
-    const nomeAlreadyExists = customers.some(
+    const nomeAlreadyExists = customers.some( // some returno bool
         (curstomer) => curstomer.name === name
     );
     const cpfAlreadyExists = customers.some(
@@ -28,26 +28,28 @@ app.post("/account", (req, res) => {
     // }
     if(cpfAlreadyExists){
         return res.status(400).json(
-            { error: "Customer already exists by cpf!", tradu: "Já existe esse cpf!"}
+            { error: "Customer already exists by cpf!", tradu: "Já existe esse cpf!" }
         );
     }
     
     customers.push({
-        cpf,
-        name,
-        id : uuid4(),
+        cpf, name, id : uuid4(),
         statement: []
     });
+    
+        return res.status(201).send();
+    });
 
-    app.get("/account", (req, res) => {
-        const { name, cpf } = req.query;
-        return res.json(
-            {name, cpf}
-        )
-    })
+    app.get("/account/:cpf", (req, res) => {
+        const { cpf } = req.params;
 
-    return res.status(201).send();
-});
+        const customer = customers.find((customer) => customer.cpf === cpf );
+
+        if(!customer){
+            return res.status(400).json({ error: "Customer not found"});
+        }
+        return res.json(customer.statement);
+    });
 
 app.listen(3333)
 console.log("rodando ...");
